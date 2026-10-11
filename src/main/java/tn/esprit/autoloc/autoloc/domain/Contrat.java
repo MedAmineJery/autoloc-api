@@ -1,30 +1,36 @@
 package tn.esprit.autoloc.autoloc.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-
-
+@AllArgsConstructor
 public class Contrat {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idContrat;
-    private Date dateSignature ;
-    private Double montantTotal ;
-    private boolean valide ;
 
+    private LocalDate dateSignature;
+
+    private BigDecimal montantTotal;
+
+    private boolean valide;
+
+    @OneToOne(mappedBy = "contrat", fetch = FetchType.LAZY)
+    private Reservation reservation;
+
+    @OneToMany(mappedBy = "contrat",fetch = FetchType.LAZY,cascade = CascadeType.ALL,orphanRemoval = true)
+    private Set<Paiement> paiements = new HashSet<>();
 }

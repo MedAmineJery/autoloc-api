@@ -9,17 +9,20 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-
-
+@AllArgsConstructor
 public class Employe {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idEmploye;
-    private String nom ;
-    private String prenom ;
+
+    private String nom;
+    private String prenom;
+
     @Enumerated(EnumType.STRING)
-    @Column(name = "role_employe")
-    private RoleEmploye roleEmploye;
+    private RoleEmploye role;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Agence agence;
 }
